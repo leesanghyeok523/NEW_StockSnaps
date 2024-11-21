@@ -8,7 +8,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         url = "https://www.koreaexim.go.kr/site/program/financial/exchangeJSON"
-        api_key = config('EXCHANGE_RATE_API_KEY')  # 환경변수에서 API 키 가져오기
+        api_key = config('EXCHANGE_RATE_API_KEY')  # 환경 변수에서 API 키 가져오기
 
         if not api_key:
             self.stderr.write("EXIMBANK_API_KEY is not set in the environment variables.")
@@ -20,7 +20,12 @@ class Command(BaseCommand):
             "data": "AP01"
         }
 
-        response = requests.get(url, params=params)
+        try:
+            response = requests.get(url, params=params, verify=False)  # SSL 인증 무시 설정
+        except requests.exceptions.RequestException as e:
+            self.stderr.write(f"Request failed: {e}")
+            return
+
         if response.status_code != 200:
             self.stderr.write(f"Failed to fetch data. Status code: {response.status_code}")
             self.stderr.write(f"Response content: {response.text}")

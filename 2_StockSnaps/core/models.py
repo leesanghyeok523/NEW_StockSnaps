@@ -21,6 +21,7 @@ class FinancialInstitution(models.Model):
     region = models.CharField(max_length=255, null=True, blank=True)  # 지역 정보
     phone_number = models.CharField(max_length=20, null=True, blank=True)  # 전화번호
 
+# 예금
 class DepositProduct(models.Model):
     financial_company_code = models.CharField(max_length=20)
     financial_product_code = models.CharField(max_length=20)
@@ -33,6 +34,7 @@ class DepositProduct(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+# 적금
 class SavingsProduct(models.Model):
     financial_company_code = models.CharField(max_length=20)
     financial_product_code = models.CharField(max_length=20)
